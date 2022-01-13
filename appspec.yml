@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ubuntu/fe
+permissions:
+  - object: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    type:
+      - directory
+  - object: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+    type:
+      - file
+hooks:
+  AfterInstall:
+    - location: ./deploy-fe.sh
+      runas: ubuntu
