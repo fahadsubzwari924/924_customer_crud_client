@@ -1,1 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import './assets/scss/font';
+@import './assets/scss/theme';
+@import 'mdb-angular-ui-kit/assets/scss/mdb';
+@import '~ngx-toastr/toastr-bs4-alert';
+
+.fn-wrapper {
+    position: relative;
+}
+
+.fn-wrapper .content-wrapper{
+    min-height: calc(100vh - calc(3.5rem + 1px));
+    position: relative;
+
+    .content{
+      padding: 3rem 0.5rem;
+    }
+  }
+
+.fn-cursort-pointer{
+  cursor: pointer;
+}

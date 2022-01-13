@@ -1,0 +1,61 @@
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="modalRef.close()"
+  ></button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="customer">
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" class="form-control" formControlName="name"
+            [ngClass]="{'is-invalid' : customer?.get('name')?.errors && (customer?.get('name').touched || customer?.get('name').dirty)}">
+          <span class="fn-error-text" *ngIf="customer?.get('name')?.errors?.required && (customer?.get('name').touched || customer?.get('name').dirty)">
+            Name is required
+          </span>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="text" class="form-control"  formControlName="email"
+            [ngClass]="{'is-invalid' : customer?.get('email')?.errors && (customer?.get('email').touched || customer?.get('email').dirty)}"/>
+          <span class="fn-error-text" *ngIf="customer?.get('email')?.errors && (customer?.get('email').touched || customer?.get('email').dirty)">
+            Please enter valid email
+          </span>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+        <div class="form-group">
+          <label>Phone</label>
+          <input type="text" class="form-control"  formControlName="phone"/>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+        <div class="form-group">
+          <label>Address</label>
+          <input type="text" class="form-control"  formControlName="address"/>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-3 col-sm-6 col-12">
+        <div class="form-group">
+          <label>Age</label>
+          <input type="text" class="form-control"  formControlName="age"/>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <!-- <button type="button" class="btn btn-secondary" (click)="modalRef.close()">
+    Close
+  </button> -->
+  <button type="button" class="btn btn-primary" (click)="createAndUpdate()">{{details ? 'Update' : 'Create'}}</button>
+</div>
