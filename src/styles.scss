@@ -3,6 +3,11 @@
 @import './assets/scss/font';
 @import './assets/scss/theme';
 @import 'mdb-angular-ui-kit/assets/scss/mdb';
+@import '~ngx-toastr/toastr';
+
+.app-wrapper{
+  position: relative;
+}
 
 .fn-wrapper {
     position: relative;
@@ -17,6 +22,6 @@
     }
   }
 
-.fn-cursort-pointer{
+.fn-cursor-pointer{
   cursor: pointer;
 }

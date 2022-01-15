@@ -12,7 +12,6 @@ import { Customer } from '@shared/models/customer.model';
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
-
   customer: FormGroup;
   title: string | null = null;
   details: Customer | null = null;
@@ -30,9 +29,14 @@ export class CreateComponent implements OnInit {
 
   createAndUpdate() {
     const customerId = this.details?._id ?? null;
-    this.cs.createAndUpdate(this.customer.value, customerId).subscribe((res) => {
-      this.modalRef.close(res ? true : false);
-    });
+    this.cs
+      .createAndUpdate(this.customer.value, customerId)
+      .subscribe((res) => {
+        let msg = customerId ? 'Customer updated' : 'Customer Crated';
+        if (!res) this.us.showAlert('error', 'Error!', res.message);
+        this.us.showAlert('success', 'Congratulations!', msg);
+        this.modalRef.close(res ? true : false);
+      })
   }
 
   populateForUpdate(data: Customer) {

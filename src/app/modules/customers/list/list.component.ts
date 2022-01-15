@@ -24,7 +24,7 @@ export class ListComponent implements OnInit, OnDestroy {
     { label: 'Address', value: 'address', isSort: false },
     { label: 'Date', value: 'createdAt', isSort: true },
   ];
-
+  sortOrder: number = null;
   constructor(private cs: CustomersService, private us: UtilService) {
     this.subscription = this.us.notifyObs$.subscribe((s) => {
       if (s?.event === 'refreshGrid') {
@@ -55,7 +55,10 @@ export class ListComponent implements OnInit, OnDestroy {
   remove(customerId: string) {
     if (customerId) {
       this.cs.remove(customerId).subscribe((res) => {
-        if (res) this.fetchCustomers();
+        if (res) {
+          this.us.showAlert('success', 'Congratulations!', 'Customer removed');
+          this.fetchCustomers();
+        }
       });
     }
   }
@@ -77,6 +80,13 @@ export class ListComponent implements OnInit, OnDestroy {
           });
         }
       });
+    }
+  }
+
+  sort(headElem: any) {
+    if (headElem.isSort) {
+      this.sortOrder = this.sortOrder === 1 ? -1 : 1;
+      this.customers$ = this.cs.sortCustomers(headElem.value, this.sortOrder);
     }
   }
 

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container mb-4">
   <button
     mdbRipple
     type="button"
@@ -9,16 +9,16 @@
   </button>
   <div class="row mt-3">
     <div class="col-12">
-      <table id="tableSortExample" mdbTable class="z-depth-1">
+      <table id="tableSortExample" mdbTable class="z-depth-1" *ngIf="(customers$ | async)?.length !== 0">
         <thead>
           <tr>
             <th
               *ngFor="let head of headElements; let i = index"
               aria-controls="tableSortExample"
-              scope="col"
+              scope="col" (click)="sort(head)" class="fn-cursor-pointer"
             >
               {{ head.label }}
-              <mdb-icon fas icon="sort"></mdb-icon>
+              <mdb-icon fas icon="sort" *ngIf="head.isSort"></mdb-icon>
             </th>
             <th>Action</th>
             <th>Action</th>
@@ -27,11 +27,14 @@
         <tbody>
           <tr *ngFor="let customer of customers$ | async; let i = index">
             <td *ngFor="let col of headElements">{{ col.value === 'createdAt' ? (customer[col.value] | date: 'yyyy-MM-dd  hh:mm') : customer[col.value] }}</td>
-            <td><i class="far fa-edit fn-cursort-pointer" (click)="update(customer._id)"></i></td>
-            <td><i class="far fa-trash-alt fn-cursort-pointer" (click)="remove(customer._id)"></i></td>
+            <td><i class="far fa-edit fn-cursor-pointer" (click)="update(customer._id)"></i></td>
+            <td><i class="far fa-trash-alt fn-cursor-pointer" (click)="remove(customer._id)"></i></td>
           </tr>
         </tbody>
       </table>
+      <ng-template #noData>
+        <p class="text-center">No customers yet</p>
+      </ng-template>
     </div>
   </div>
 </div>

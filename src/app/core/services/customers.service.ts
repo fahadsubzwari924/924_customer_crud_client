@@ -31,4 +31,9 @@ export class CustomersService {
     return this._http.get(apiUrl);
   }
 
+  sortCustomers(sortKey: string, sortOrder: number): Observable<Customer[]>{
+    let apiUrl = `${ApiConstants.customers}?${sortKey}=${sortOrder}`;
+    return this._http.get(apiUrl);
+  }
+
 }
