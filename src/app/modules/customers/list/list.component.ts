@@ -15,7 +15,7 @@ import { GlobalConstants } from '@constants/global.constants';
 export class ListComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
   modalRef: MdbModalRef<CreateComponent> | null = null;
-  customers$!: Observable<Customer[]>;
+  customers: any[] = []
   headElements = [
     { label: 'Name', value: 'name', isSort: true },
     { label: 'Email', value: 'email', isSort: false },
@@ -38,18 +38,20 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   addCustomer() {
-    this.modalRef = this.us.showModal(CreateComponent, {
+    this.us.activeModalRef = this.us.showModal(CreateComponent, {
       data: { title: GlobalConstants.titles.customer.add },
       modalClass: 'modal-lg',
     });
-    this.modalRef.onClose.subscribe((data) => {
-      this.modalRef.close();
+    this.us.activeModalRef.onClose.subscribe((data) => {
+      this.us.activeModalRef.close();
       if (data) this.fetchCustomers();
     });
   }
 
   fetchCustomers() {
-    this.customers$ = this.cs.getCustomers();
+    this.cs.getCustomers().subscribe(res => {
+      this.customers = res;
+    })
   }
 
   remove(customerId: string) {
@@ -67,15 +69,15 @@ export class ListComponent implements OnInit, OnDestroy {
     if (customerId) {
       this.cs.getCustomerById(customerId).subscribe((res) => {
         if (res) {
-          this.modalRef = this.us.showModal(CreateComponent, {
+          this.us.activeModalRef = this.us.showModal(CreateComponent, {
             data: {
               title: GlobalConstants.titles.customer.update,
               details: res,
             },
             modalClass: 'modal-lg',
           });
-          this.modalRef.onClose.subscribe((response) => {
-            this.modalRef.close();
+          this.us.activeModalRef.onClose.subscribe((response) => {
+            this.us.activeModalRef.close();
             if (response) this.fetchCustomers();
           });
         }
@@ -86,7 +88,9 @@ export class ListComponent implements OnInit, OnDestroy {
   sort(headElem: any) {
     if (headElem.isSort) {
       this.sortOrder = this.sortOrder === 1 ? -1 : 1;
-      this.customers$ = this.cs.sortCustomers(headElem.value, this.sortOrder);
+      this.cs.sortCustomers(headElem.value, this.sortOrder).subscribe(res => {
+        this.customers = res;
+      })
     }
   }
 

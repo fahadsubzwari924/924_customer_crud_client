@@ -16,9 +16,13 @@ export class CustomersService {
     return this._http.get(ApiConstants.customers);
   }
 
-  createAndUpdate(body: any, customerId: string = null){
-    let apiUrl = customerId ? `${ApiConstants.customers}/${customerId}` : null;
-    return customerId ? this._http.put(apiUrl, body) : this._http.post(ApiConstants.createCustomer,body);
+  createAndUpdate(body: any){
+    return this._http.post(ApiConstants.createCustomer,body);
+  }
+
+  update(body: any, customerId: string){
+    let apiUrl = `${ApiConstants.customers}/${customerId}`;
+    return this._http.put(apiUrl, body);
   }
 
   remove(customerId: string): Observable<any>{

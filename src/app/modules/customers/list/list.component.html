@@ -2,14 +2,14 @@
   <button
     mdbRipple
     type="button"
-    class="btn btn-primary"
+    class="btn btn-primary create"
     (click)="addCustomer()"
   >
     Create Customer<i class="fas fa-plus ml-2 fn-font-14"></i>
   </button>
   <div class="row mt-3">
     <div class="col-12">
-      <table id="tableSortExample" mdbTable class="z-depth-1" *ngIf="(customers$ | async)?.length !== 0">
+      <table id="tableSortExample" mdbTable class="z-depth-1" *ngIf="customers.length">
         <thead>
           <tr>
             <th
@@ -25,10 +25,19 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let customer of customers$ | async; let i = index">
+          <tr *ngFor="let customer of customers; let i = index">
             <td *ngFor="let col of headElements">{{ col.value === 'createdAt' ? (customer[col.value] | date: 'yyyy-MM-dd  hh:mm') : customer[col.value] }}</td>
-            <td><i class="far fa-edit fn-cursor-pointer" (click)="update(customer._id)"></i></td>
-            <td><i class="far fa-trash-alt fn-cursor-pointer" (click)="remove(customer._id)"></i></td>
+            <td>
+              <button type="button" id="updateCustomer" class="btn btn-outline-success btn-floating update" (click)="update(customer._id)">
+                <i class="far fa-edit"></i>
+              </button>
+            </td>
+            <td>
+              <button type="button" id="removeCustomer" class="btn btn-outline-danger btn-floating" (click)="remove(customer._id)">
+                <i class="far fa-trash-alt"></i>
+              </button>
+              <!-- <i class="far fa-trash-alt fn-cursor-pointer" (click)="remove(customer._id)"></i> -->
+            </td>
           </tr>
         </tbody>
       </table>

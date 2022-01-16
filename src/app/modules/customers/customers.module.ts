@@ -9,7 +9,6 @@ import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { CoreModule } from '@core/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 @NgModule({
   declarations: [
     CreateComponent,

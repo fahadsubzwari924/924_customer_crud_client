@@ -16,6 +16,7 @@ export class UtilService {
   mdCmp: MdbModalRef<Component>;
   private notify = new BehaviorSubject<any>('hello');
   public notifyObs$ = this.notify.asObservable();
+  activeModalRef: MdbModalRef<any>;
 
   constructor(
     private modalService: MdbModalService,

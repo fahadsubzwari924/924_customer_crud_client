@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
+import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
 import { UtilService } from '@core/services/util.service';
 import { FormGroup } from '@angular/forms';
 import { FormsConstants } from '@core/constants/forms.constants';
@@ -15,28 +15,36 @@ export class CreateComponent implements OnInit {
   customer: FormGroup;
   title: string | null = null;
   details: Customer | null = null;
+  public modalRef: MdbModalRef<CreateComponent>
 
   constructor(
-    public modalRef: MdbModalRef<CreateComponent>,
-    private us: UtilService,
-    private cs: CustomersService
+    public us: UtilService,
+    private cs: CustomersService,
+    // public modalRef: MdbModalRef<CreateComponent>
   ) {}
 
   ngOnInit(): void {
-    this.customer = this.us.customCreateForm(FormsConstants.createCustomer);
+    this.createForm();
     if (this.details) this.populateForUpdate(this.details);
   }
 
   createAndUpdate() {
     const customerId = this.details?._id ?? null;
-    this.cs
-      .createAndUpdate(this.customer.value, customerId)
+    if (!customerId) {
+      this.cs.createAndUpdate(this.customer.value)
       .subscribe((res) => {
-        let msg = customerId ? 'Customer updated' : 'Customer Crated';
         if (!res) this.us.showAlert('error', 'Error!', res.message);
-        this.us.showAlert('success', 'Congratulations!', msg);
-        this.modalRef.close(res ? true : false);
+        this.us.showAlert('success', 'Congratulations!', 'Customer created');
+        this.us.activeModalRef.close(res ? true : false);
       })
+    } else {
+      this.cs.update(this.customer.value, customerId)
+      .subscribe((res) => {
+        if (!res) this.us.showAlert('error', 'Error!', res.message);
+        this.us.showAlert('success', 'Congratulations!', 'Customer updated');
+        this.us.activeModalRef.close(res ? true : false);
+      })
+    }
   }
 
   populateForUpdate(data: Customer) {
@@ -44,4 +52,12 @@ export class CreateComponent implements OnInit {
       this.customer.get(field.name).setValue(data[field.name]);
     });
   }
+
+  createForm(){
+    this.customer = this.us.customCreateForm(FormsConstants.createCustomer);
+  }
+
+  // close(){
+  //   this.modalRef.close(false);
+  // }
 }
