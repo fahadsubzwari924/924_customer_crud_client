@@ -19,6 +19,9 @@ import { CustomersService } from '@core/services/customers.service';
 import { MockDependenciesModule } from 'app/modules/mock-dependecies/mock-dependencies.module';
 import { setFieldValue } from '@core/services/testing-helper.service';
 import { UtilService } from '@core/services/util.service';
+import { Customer } from '@shared/models/customer.model';
+import { Observable, of } from 'rxjs';
+
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -31,19 +34,15 @@ describe('ListComponent', () => {
   let customerService: CustomersService;
   let createCustomerFormElements;
   let utilService: UtilService;
+  let noDataFnSpy: any;
+  let emptyCustomers$ = of([]);
 
-
-  const fillCustomerForm = () => {
-    Object.keys(MockData.customer).forEach(k => {
-      setFieldValue(customerFixture, k, MockData.customer[k]);
-    })
-  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ListComponent, CreateComponent],
       imports: [
-        HttpClientModule,
+  HttpClientModule,
         ToastrModule.forRoot(),
         MdbModalModule,
         CommonModule,
@@ -70,7 +69,8 @@ describe('ListComponent', () => {
     customerFixture.detectChanges();
     customerDebugElement = customerFixture.debugElement;
     customerService = TestBed.inject(CustomersService);
-    addCustomerSpy = spyOn(customerService, 'createAndUpdate').and.callThrough();
+    // addCustomerSpy = spyOn(customerService, 'createAndUpdate').and.callThrough();
+    noDataFnSpy = spyOn(customerService, 'getCustomers').and.returnValue(emptyCustomers$);
   });
 
 
@@ -81,37 +81,11 @@ describe('ListComponent', () => {
     expect(utilService.activeModalRef).toBeTruthy();
   });
 
-  // it('add customer function with same values that entered in form by user', () => {
-  //   expect(component.modalRef).toBeFalsy();
-  //   customerCmp.details = null;
-  //   debugElement.query(By.css('button.btn'))
-  //     .triggerEventHandler('click', null);
-  //   fixture.detectChanges();
-  //   fillCustomerForm();
-  //   customerDebugElement.query(By.css('button.btn'))
-  //     .triggerEventHandler('click', null);
-  //   customerFixture.detectChanges();
-  //   expect(component.modalRef).toBeTruthy();
-  //   expect(addCustomerSpy).toHaveBeenCalledWith(MockData.customer);
-  // });
-
-  // it('should open create customer modal on add customer button click', () => {
-  //   component.customers = MockData.customersList;
-  //   fixture.detectChanges();
-  //   expect(utilService.activeModalRef).toBeFalsy();
-  //   fixture.debugElement.query(By.css('button.update')).triggerEventHandler('click', null);
-  //   fixture.detectChanges();
-  //   expect(utilService.activeModalRef).toBeTruthy();
-  // });
-
-  // it('should open update customer modal and customer modal should have right title', () => {
-  //   expect(utilService.activeModalRef).toBeFalsy();
-  //   console.log('update button : ', debugElement.query(By.css('.update')));
-  //   debugElement.query(By.css('.update'))
-  //     .triggerEventHandler('click', null);
-  //   fixture.detectChanges();
-  //   let customerModalTitle = customerDebugElement.query(By.css('#customerModalTitle')).nativeElement;
-  //   expect(utilService.activeModalRef).toBeTruthy();
-  //   expect(customerModalTitle.textContent).toContain('Update Customer');
-  // });
+  it('should show no data if there will be no customers', () => {
+      component.customers = [];
+      component.ngOnInit();
+      fixture.detectChanges();
+      let noDataText = debugElement.query(By.css('p.noData')).nativeElement.innerText;
+      expect(noDataText).toEqual('No customers yet');
+  });
 });

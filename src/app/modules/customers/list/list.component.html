@@ -36,14 +36,11 @@
               <button type="button" id="removeCustomer" class="btn btn-outline-danger btn-floating" (click)="remove(customer._id)">
                 <i class="far fa-trash-alt"></i>
               </button>
-              <!-- <i class="far fa-trash-alt fn-cursor-pointer" (click)="remove(customer._id)"></i> -->
             </td>
           </tr>
         </tbody>
       </table>
-      <ng-template #noData>
-        <p class="text-center">No customers yet</p>
-      </ng-template>
+        <p class="text-center noData" *ngIf="!customers.length">No customers yet</p>
     </div>
   </div>
 </div>

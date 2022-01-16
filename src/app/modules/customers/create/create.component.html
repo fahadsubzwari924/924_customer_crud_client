@@ -13,9 +13,9 @@
       <div class="col-lg-3 col-md-3 col-sm-6 col-12">
         <div class="form-group">
           <label>Full Name</label>
-          <input type="text" class="form-control" formControlName="name" data-testid="name"
+          <input type="text" class="form-control" formControlName="name" data-testid="name" maxlength="60"
             [ngClass]="{'is-invalid' : customer?.get('name')?.errors && (customer?.get('name').touched || customer?.get('name').dirty)}">
-          <span class="fn-error-text" *ngIf="customer?.get('name')?.errors?.required && (customer?.get('name').touched || customer?.get('name').dirty)">
+          <span class="fn-error-text name" *ngIf="this.customer?.get('name')?.errors?.required && (this.customer?.get('name').touched || this.customer?.get('name').dirty)">
             Name is required
           </span>
         </div>
@@ -25,7 +25,7 @@
           <label>Email</label>
           <input type="text" class="form-control"  formControlName="email" data-testid="email"
             [ngClass]="{'is-invalid' : customer?.get('email')?.errors && (customer?.get('email').touched || customer?.get('email').dirty)}"/>
-          <span class="fn-error-text" *ngIf="customer?.get('email')?.errors && (customer?.get('email').touched || customer?.get('email').dirty)">
+          <span class="fn-error-text email" *ngIf="customer?.get('email')?.errors && (customer?.get('email').touched || customer?.get('email').dirty)">
             Please enter valid email
           </span>
         </div>
@@ -33,7 +33,7 @@
       <div class="col-lg-3 col-md-3 col-sm-6 col-12">
         <div class="form-group">
           <label>Phone</label>
-          <input type="text" class="form-control"  formControlName="phone" data-testid="phone"/>
+          <input type="text" class="form-control"  formControlName="phone" data-testid="phone" maxlength="13"/>
         </div>
       </div>
     </div>
@@ -47,13 +47,13 @@
       <div class="col-lg-3 col-md-3 col-sm-6 col-12">
         <div class="form-group">
           <label>Age</label>
-          <input type="text" class="form-control"  formControlName="age" data-testid="age"/>
+          <input type="number" class="form-control"  formControlName="age" data-testid="age"/>
         </div>
       </div>
     </div>
   </form>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="createAndUpdate()"
+  <button type="button" class="btn btn-primary create-customer" (click)="createAndUpdate()"
     [disabled]="!customer.valid">{{details ? 'Update' : 'Create'}}</button>
 </div>

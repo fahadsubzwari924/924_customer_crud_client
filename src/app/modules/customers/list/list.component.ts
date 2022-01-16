@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Customer } from '@shared/models/customer.model';
 import { CustomersService } from '@core/services/customers.service';
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { UtilService } from '@core/services/util.service';
 import { CreateComponent } from '../create/create.component';
 import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
@@ -95,6 +94,7 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    /* Unsubscribing from subscription to avoid memory leaks*/
     this.subscription.unsubscribe();
   }
 }

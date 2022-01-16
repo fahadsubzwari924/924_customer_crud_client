@@ -15,4 +15,13 @@ export class GlobalConstants{
       age: 30
     }
   }
+
+  public static readonly customerListHeaders = [
+    { label: 'Name', value: 'name', isSort: true },
+    { label: 'Email', value: 'email', isSort: false },
+    { label: 'Age', value: 'age', isSort: false },
+    { label: 'Phone', value: 'phone', isSort: false },
+    { label: 'Address', value: 'address', isSort: false },
+    { label: 'Date', value: 'createdAt', isSort: true },
+  ];
 }

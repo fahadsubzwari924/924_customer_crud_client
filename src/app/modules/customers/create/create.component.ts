@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdbModalRef, MdbModalService } from 'mdb-angular-ui-kit/modal';
+import { MdbModalRef } from 'mdb-angular-ui-kit/modal';
 import { UtilService } from '@core/services/util.service';
 import { FormGroup } from '@angular/forms';
 import { FormsConstants } from '@core/constants/forms.constants';
@@ -20,7 +20,6 @@ export class CreateComponent implements OnInit {
   constructor(
     public us: UtilService,
     private cs: CustomersService,
-    // public modalRef: MdbModalRef<CreateComponent>
   ) {}
 
   ngOnInit(): void {
@@ -56,8 +55,4 @@ export class CreateComponent implements OnInit {
   createForm(){
     this.customer = this.us.customCreateForm(FormsConstants.createCustomer);
   }
-
-  // close(){
-  //   this.modalRef.close(false);
-  // }
 }
