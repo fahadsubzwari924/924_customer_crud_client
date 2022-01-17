@@ -47,7 +47,22 @@ For running the whole application you just have to navigate to the `924_customer
 -	Create button will be disabled until all validation errors will be removed.
 
 # Unit Test 
-Unit tests are only implemented in front-end application.
+Unit tests are implemented on `create`,`list` components.
+
+## List Component
+-	   Should open create customer modal on add customer button click.
+-  	 should show no data if there will be no customers.
+
+## Create Component
+-	  Should show error if name field left empty
+-	  Should show error if email not valid 
+-   Should not show error on email field if email is valid
+-	  Should form be invalid if name and email fields left empty
+-	  Should show valid error text if name field left empty
+-	  Should create button disabled if validation errors occurs
+-	  Should call customer service create function on button click
+-	  Should call customer service create function with the same values as provided in Html form
+-	  Should close the create customer modal when customer saved
 
 
 
